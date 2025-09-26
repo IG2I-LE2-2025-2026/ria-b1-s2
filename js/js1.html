@@ -86,7 +86,11 @@ function val(refOrId, val) {
   // l'élément est un champ de formulaire
   // la fonction doit pouvoir manipuler l'état des champs de type checkbox et radio 
   var ref = getRef(refOrId);
-  return getOrReplaceContent(ref, "value", val);
+  if (ref.type === "checkbox" || ref.type === "radio") {
+    return getOrReplaceContent(ref, "checked", val);
+  } else {
+    return getOrReplaceContent(ref, "value", val);
+  }
 }
 </script>
 
