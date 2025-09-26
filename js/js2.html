@@ -1,0 +1,54 @@
+<head>
+
+<script>
+function alwaysTrue() {
+  return true;
+}
+
+var myBool = true;
+
+function returnMyBool() {
+  return myBool;
+}
+
+function sayHello() {
+  console.log("hello");
+}
+
+function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
+	// Objectif : déclencher un appel à la fonction fnCbTraitement
+	// toutes les iPeriode secondes, 
+	// tant que fnCbContinuer renvoie vrai
+
+	// fnCbTraitement est une fonction de rappel ("CALLBACK")
+	// elle sera appelée plus tard
+	// pour l'appeler, il suffit d'ajouter les parenthèses !
+
+	// rendre le 3ème argument optionnel
+	
+	function boucle_interne() {
+	  if (fnCbContinuer()) {
+	    fnCbTraitement();
+	    // Se rappeler encore dans iPeriode
+      setTimeout(boucle_interne, iPeriode * 1000);
+	  }
+	}
+	
+  setTimeout(boucle_interne, iPeriode * 1000);
+}
+</script>
+</head>
+<body>
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
