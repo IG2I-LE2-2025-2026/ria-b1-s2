@@ -12,11 +12,23 @@ function trace(s) {
 	*/
 }
 
+// Variable globale
+var compteur = 10;
+
 function debug(s) {
 	// affiche un nombre de messages limité par un compteur
 	// affiche le compteur si s n'est pas fourni
 	// e.g. après 10 affichages, la fonction ne fait plus rien 
-	// comment remettre à 0 le compteur ?   
+	// comment remettre à 0 le compteur ?
+	// => Modifier la valeur de compteur dans la console
+	if (compteur > 0) {
+	  if (s === undefined) {
+	    trace(compteur);
+	  } else {
+  	  trace(s);
+	  }
+	  compteur--;
+	}
 }
 
 function show(refOrId,display) {
