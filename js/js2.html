@@ -15,7 +15,11 @@ function sayHello() {
   console.log("hello");
 }
 
-function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
+function boucle(
+  iPeriode,
+  fnCbTraitement,
+  fnCbContinuer = function() { return true; }
+) {
 	// Objectif : déclencher un appel à la fonction fnCbTraitement
 	// toutes les iPeriode secondes, 
 	// tant que fnCbContinuer renvoie vrai
@@ -25,6 +29,11 @@ function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
 	// pour l'appeler, il suffit d'ajouter les parenthèses !
 
 	// rendre le 3ème argument optionnel
+	/*
+	if (fnCbContinuer === undefined) {
+	  fnCbContinuer = function() { return true; };
+	}
+	*/
 	
 	function boucle_interne() {
 	  if (fnCbContinuer()) {
