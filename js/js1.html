@@ -1,53 +1,88 @@
+<head>
+
+<meta charset="UTF-8">
+
 <script>
 
 function trace(s) {
-	// que fait cette fonction ?
-	window.console && console.log(s);
-	
-	/*
-	// Équivalent à :
-	if (window.console) {
-	  console.log(s);
-	}
-	*/
+  // que fait cette fonction ?
+  window.console && console.log(s);
+  
+  /*
+  // Équivalent à :
+  if (window.console) {
+    console.log(s);
+  }
+  */
 }
 
 // Variable globale
 var compteur = 10;
 
 function debug(s) {
-	// affiche un nombre de messages limité par un compteur
-	// affiche le compteur si s n'est pas fourni
-	// e.g. après 10 affichages, la fonction ne fait plus rien 
-	// comment remettre à 0 le compteur ?
-	// => Modifier la valeur de compteur dans la console
-	if (compteur > 0) {
-	  if (s === undefined) {
-	    trace(compteur);
-	  } else {
-  	  trace(s);
-	  }
-	  compteur--;
-	}
+  // affiche un nombre de messages limité par un compteur
+  // affiche le compteur si s n'est pas fourni
+  // e.g. après 10 affichages, la fonction ne fait plus rien 
+  // comment remettre à 0 le compteur ?
+  // => Modifier la valeur de compteur dans la console
+  if (compteur > 0) {
+    if (s === undefined) {
+      trace(compteur);
+    } else {
+      trace(s);
+    }
+    compteur--;
+  }
 }
 
 function show(refOrId,display) {
-	// affiche l'élément dont la référence ou l'id est fourni
-	// le paramètre display doit valoir block par défaut
+  // affiche l'élément dont la référence ou l'id est fourni
+  // le paramètre display doit valoir block par défaut
 }
 
 function hide(refOrId) {
-	// cache l'élément dont la référence ou l'id est fourni
+  // cache l'élément dont la référence ou l'id est fourni
 }
 
 function html(refOrId, val) {
-	// affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
+  // affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
 }
 
 function val(refOrId, val) {
-	// affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
-	// l'élément est un champ de formulaire
-	// la fonction doit pouvoir manipuler l'état des champs de type checkbox et radio 
-	
+  // affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
+  // l'élément est un champ de formulaire
+  // la fonction doit pouvoir manipuler l'état des champs de type checkbox et radio 
+  
 }
 </script>
+
+</head>
+
+<body>
+  <h1 id="titre">Un super titre</h1>
+
+  <p id="p1">Le premier paragraphe !</p>
+  <p id="p2">Suivi du deuxième paragraphe qui raconte sa vie...</p>
+  <p id="p3">Le dernier paragrpahe est là.</p>
+
+  <form>
+    <label id="l" for="t">Votre super-héros préféré :</label>
+    <input id="t" type="text" />
+    <input id="b" type="button" value="Envoyer" />
+    <br />
+    
+    <input id="cb" type="checkbox" />
+    <label for="cb">Coché ou pas coché, telle est la question</label>
+    <br />
+    
+    <input id="r1" type="radio" name="couleur" />
+    <label for="r1">Rouge</label>
+    <br />
+    <input id="r2" type="radio" name="couleur" />
+    <label for="r2">Vert</label>
+    <br />
+    <input id="r3" type="radio" name="couleur" />
+    <label for="r3">Bleu</label>
+  </form>
+</body>
+
