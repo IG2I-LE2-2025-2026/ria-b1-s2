@@ -12,24 +12,27 @@ function trace(s) {
   */
 }
 
-// Variable globale
-var compteur = 10;
+function mkDebug() {
+  // Crée des fonctions debug
+  
+  // Variable locale à mkDebug
+  var compteur = 10;
 
-function debug(s) {
-  // affiche un nombre de messages limité par un compteur
-  // affiche le compteur si s n'est pas fourni
-  // e.g. après 10 affichages, la fonction ne fait plus rien 
-  // comment remettre à 0 le compteur ?
-  // => Modifier la valeur de compteur dans la console
-  if (compteur > 0) {
-    if (s === undefined) {
-      trace(compteur);
-    } else {
-      trace(s);
+  // Fonction anonyme (sans nom)
+  return function(s) {
+    // affiche un nombre de messages limité par un compteur
+    if (compteur > 0) {
+      if (s === undefined) {
+        trace(compteur);
+      } else {
+        trace(s);
+      }
+      compteur--;
     }
-    compteur--;
   }
 }
+
+var debug = mkDebug();
 
 function getRef(refOrId) {
   // Retourne la référence d'un élément dont la référence ou l'identifiant est fourni
