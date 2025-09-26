@@ -62,13 +62,34 @@ function hide(refOrId) {
 
 function html(refOrId, val) {
   // affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
+  var ref;
+  if (typeof refOrId === "string") {
+    ref = document.getElementById(refOrId);
+  } else {
+    ref = refOrId;
+  }
+  if (val === undefined) {
+    return ref.innerHTML;
+  } else {
+    ref.innerHTML = val;
+  }
 }
 
 function val(refOrId, val) {
   // affecte une valeur à l'élément dont la référence ou l'id est fourni; si val n'est pas fourni, on renvoie son contenu
   // l'élément est un champ de formulaire
   // la fonction doit pouvoir manipuler l'état des champs de type checkbox et radio 
-  
+  var ref;
+  if (typeof refOrId === "string") {
+    ref = document.getElementById(refOrId);
+  } else {
+    ref = refOrId;
+  }
+  if (val === undefined) {
+    return ref.value;
+  } else {
+    ref.value = val;
+  }
 }
 </script>
 
