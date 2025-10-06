@@ -17,6 +17,7 @@ en jQuery, on pourra exploiter les classes */
 	position:absolute;
 	right:8px;
 	top:4px;
+	display:none;
 }
 .composantSuggest input {
 	width:150px;
@@ -38,17 +39,43 @@ en jQuery, on pourra exploiter les classes */
 	color:white;
 }
 </style>
+<script src="js/utils.js"></script>
+<script src="js/ajax.js"></script>
+<script>
+// TODO : mettre en place l'interaction ESC qui cache les suggestions, vide le champ de saisie (BONUS : et annule la requete AJAX en cours) 
 
+function choisir(contexte) {
+	// ref sur l'élément à l'origine de l'evnt : contexte.target
+	val("saisie-cs1",html(contexte.target)); 
+	hide("suggestions-cs1");
+}
+
+function saisir(refInput) {
+	var contenu = val(refInput);
+	show("imgLoad-cs1");
+	// TODO: on envoie une requete ssi 
+	// le champ n'est pas vide 
+	// le champ a effectivement changé 
+	
+	// TODO : utiliser la page data comme couche d'information
+	ajax("fixture.php", {
+		data: {debutNom:contenu}, 
+		callback: integrer
+	});
+}
+function integrer (suggestions) {
+	html("suggestions-cs1",suggestions);
+	show("suggestions-cs1");
+	hide("imgLoad-cs1");
+}
+</script>
 <body>
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec sapien aliquam, feugiat nisl nec, condimentum dolor. Phasellus non tincidunt risus, ut blandit mauris. Curabitur faucibus nibh magna, at condimentum nisl auctor vitae. Integer molestie elit vel pharetra aliquet. 
 <div id="cs1" class="composantSuggest">
-	<input type="text" id="saisie-cs1" value="Th"/>
+	<input type="text" id="saisie-cs1" value="Th" onkeyup="saisir(this);"/>
 	<img src="ressources/ajaxLoader2.gif" id="imgLoad-cs1" />
-	<div class="suggestions" id="suggestions-cs1">
-		<div>Thibault</div>
-		<div>Thimoth&eacute;e</div>
-		<div>Thomas</div>
+	<div class="suggestions" id="suggestions-cs1" onclick="choisir(event);">
 	</div>
 </div>
 Nam convallis maximus facilisis. Aenean commodo hendrerit elit non malesuada. Aenean ut urna quis arcu vestibulum posuere nec id nisl. Nunc sed bibendum purus, sodales tincidunt sapien. Fusce ultrices tortor a ligula ultrices dignissim.
