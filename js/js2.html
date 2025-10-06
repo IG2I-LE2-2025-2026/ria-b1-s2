@@ -1,6 +1,8 @@
 <head>
 
 <script>
+
+
 function alwaysTrue() {
   return true;
 }
@@ -45,6 +47,75 @@ function boucle(
 	
   setTimeout(boucle_interne, iPeriode * 1000);
 }
+
+var oConfigDefault = {
+	periode:5, 
+	traiter: function(){console.log("traitement par defaut");},
+	poursuivre: function(){return true;}
+}; 
+
+function enrichir(oStructure,oValeursEffectives) {
+	// renvoie un nouvel objet 
+	// qui a la même structure que oStructure
+	// avec les valeurs (si elles existent de oValeursEffectives)
+	// clonage superficiel++ 
+	// en + :  permet de modifier certaines propriétés
+	// en + : 2nd argument optionnel => clonage classique  
+	var prop; 
+	var oRes = {}; 
+	for (prop in oStructure) {
+		if ((oValeursEffectives != undefined)
+		&& (oValeursEffectives[prop] != undefined))
+			oRes[prop] = oValeursEffectives[prop]; 
+		else oRes[prop] = oStructure[prop];
+	}
+	return oRes; 
+}
+
+function oBoucle(oParams) {
+	/*
+	var oConfigEffective = oConfigDefault; 
+	// ceci n'est pas une copie / un clonage ! 
+	// c'est une prise de référence 
+	// quelles sont les solutions possibles ?? 
+	// Cf. https://www.younup.fr/blog/le-clonage-des-objets-en-js
+	// newRobot = JSON.parse(JSON.stringify(complexRobot));
+	// ne clone QUE les propriétés , pas les methodes !
+	// Object.assign
+	// Mais tout comme le spread operator, il ne clone qu'au premier niveau, et ne copie que les références des objets et arrays.
+	// on parle de clonage superficiel 
+	// pour du clonage profond : https://api.jquery.com/clone/
+	if (oParams.periode != undefined) 
+		oConfigEffective.periode = oParams.periode;
+	if (oParams.traiter != undefined) 
+		oConfigEffective.traiter = oParams.traiter;
+	if (oParams.poursuivre != undefined) 
+		oConfigEffective.poursuivre = oParams.poursuivre;
+	*/
+	var oConfigEffective = enrichir(oConfigDefault,oParams); 
+
+	var boucle_interne = function () {
+		// nouvelle fonction : quel est son scope ? 
+		// var globales 
+		// ses propres variables locales 
+		// la variable locale de oBoucle : oConfigEffective
+	  if (oConfigEffective.poursuivre()) {
+	    oConfigEffective.traiter();
+	    // Se rappeler encore dans iPeriode
+      setTimeout(boucle_interne, oConfigEffective.periode * 1000);
+	  }
+	}
+	
+	boucle_interne(); 
+}
+
+// TDD : test driven development 
+oBoucle(); 
+//oBoucle({}); 
+//oBoucle({periode:2});
+//oBoucle({traiter:sayHello}); 
+//oBoucle({traiter:sayHello, poursuivre:returnMyBool});  
+
 </script>
 </head>
 <body>
