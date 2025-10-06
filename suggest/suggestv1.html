@@ -1,0 +1,57 @@
+<!--
+Suggest V1 : structure, présentation 
+--> 
+
+<style>
+/* NB : il ne faudrait pas utiliser d'id pour styliser le code
+car on a besoin de pouvoir instancier plusieurs composants de suggestion
+mais on utilise tout de même des id dans le js pour faciliter l'accès au DOM 
+en jQuery, on pourra exploiter les classes */
+
+.composantSuggest {
+	display:inline;
+	position:relative;
+	/*devient un conteneur */
+}
+.composantSuggest img {
+	position:absolute;
+	right:8px;
+	top:4px;
+}
+.composantSuggest input {
+	width:150px;
+	border: 1px solid black;
+	outline:none;
+}
+.suggestions {
+	position:absolute;
+	background-color:lightgrey;
+	left:0px;right:0px;
+	width:150px;
+}
+.suggestions div {
+		padding:3px;	
+}
+.suggestions div:hover {
+	cursor:pointer;
+	background-color:grey;
+	color:white;
+}
+</style>
+
+<body>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec sapien aliquam, feugiat nisl nec, condimentum dolor. Phasellus non tincidunt risus, ut blandit mauris. Curabitur faucibus nibh magna, at condimentum nisl auctor vitae. Integer molestie elit vel pharetra aliquet. 
+<div id="cs1" class="composantSuggest">
+	<input type="text" id="saisie-cs1" value="Th"/>
+	<img src="ressources/ajaxLoader2.gif" id="imgLoad-cs1" />
+	<div class="suggestions" id="suggestions-cs1">
+		<div>Thibault</div>
+		<div>Thimoth&eacute;e</div>
+		<div>Thomas</div>
+	</div>
+</div>
+Nam convallis maximus facilisis. Aenean commodo hendrerit elit non malesuada. Aenean ut urna quis arcu vestibulum posuere nec id nisl. Nunc sed bibendum purus, sodales tincidunt sapien. Fusce ultrices tortor a ligula ultrices dignissim.
+
+Aliquam molestie metus sit amet interdum euismod. Integer rhoncus massa ac enim elementum, sit amet molestie turpis vehicula. Proin elementum metus felis, eu egestas diam rhoncus nec. Curabitur ac elementum dolor, ac molestie enim. Aliquam pharetra lacinia sem, a luctus nunc malesuada et. Donec porttitor vitae nisl sed ullamcorper. Nulla varius auctor condimentum. Nulla et purus at erat porta congue. Fusce vel arcu ut metus gravida eleifend sed id nisi. Suspendisse in libero eget elit consectetur interdum. Aliquam vel sagittis ipsum. Proin faucibus tortor viverra sem pulvinar bibendum. Aliquam vel porta libero, nec interdum sapien. Praesent non venenatis purus, et facilisis dui. Curabitur vulputate dolor at metus tincidunt ullamcorper vitae id neque. Sed quis aliquam lorem.
+</body>
