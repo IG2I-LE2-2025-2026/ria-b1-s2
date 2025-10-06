@@ -1,0 +1,41 @@
+<script type="text/javascript">
+
+
+function envoyer(refBtn)
+{
+	var refCle = document.getElementById("cle");
+	var type = (refBtn.value == "envoi GET") ? "GET" : "POST" ; 
+	// TODO : utiliser la fonction ajax de la librairie ajax.js 
+
+}
+
+</script>
+
+<input type="text" id="cle"/>
+<input type="button" value="envoi GET" onclick="envoyer(this)"/>
+<input type="button" value="envoi POST" onclick="envoyer(this)"/>
+
+<div id="reponse">
+</div>
+
+<textarea cols="40" rows="10">
+Pour vous convaincre que c'est bien une requete sans changement de page, vous pouvez editer ce champ: il ne sera pas remis &agrave; jour !
+</textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
