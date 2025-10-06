@@ -1,12 +1,27 @@
+<script type="text/javascript" src="ajax.js"> </script>
 <script type="text/javascript">
-
-
 function envoyer(refBtn)
 {
 	var refCle = document.getElementById("cle");
 	var type = (refBtn.value == "envoi GET") ? "GET" : "POST" ; 
 	// TODO : utiliser la fonction ajax de la librairie ajax.js 
+	ajax("A2_data.php", {
+		type: type, // !!
+		data : {cle: refCle.value}, 
+		callback : function (r){
+			document.getElementById("reponse").innerHTML = r;
+		}
+	}); 
+	// comment annuler une requete en cours ?? 
+	// on pourrait utiliser un argument passé en paramètre / en propriété
+	// de la fonction ajax pour obtenir une référence vers l'objet de requetage et invoquer sa méthode abort()
 
+	ajax({
+		type: type, 
+		data : {cle: refCle.value}, 
+		url : "A2_data.php" 
+	});
+	
 }
 
 </script>
