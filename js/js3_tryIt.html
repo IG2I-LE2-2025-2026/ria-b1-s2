@@ -41,27 +41,34 @@
 </script>
 
 <script src="boucle.js">
-// définit boucle()
+// définit oBoucle()
 </script>
 
 <script type="text/javascript">
 function maj() {
 	// TODO : copie le code depuis le textarea "code" vers le div "rendu"
-	html("rendu", val("code"));
+	html('rendu',val('code')); // attention à l'efficacité : on doit récupérer la référence à chaque appel 
 }
 
-function init()
-{
-	console.log("Code a completer a l'aide de la librairie de fonctions 'boucle'");
+function majAuto(refCB) {
+	oBoucle({
+		periode : 2,
+		traiter: maj, 
+		poursuivre : function(){
+			// refCB est dans le scope de cette fonction !
+			// return refCB.checked;
+			return val(refCB);  
+		}
+	}); 
 }
 
 </script>
 </head>
-<body onload="init();">
+<body>
 
 <div id="inputs">
 	<input onclick="maj();" value="actualiser le rendu" type="button">
-	<input id="cb" type="checkbox">
+	<input onclick="majAuto(this);" id="cb" type="checkbox">
 	<label for="cb">automatiquement</label>
 </div>
 
