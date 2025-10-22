@@ -9,7 +9,9 @@ if ($cherche = valider("debutNom", "GET"))
     SELECT *
     FROM etudiants
     WHERE nom LIKE '$cherche%'
-       OR prenom LIKE '$cherche%';
+       OR prenom LIKE '$cherche%'
+       OR CONCAT(prenom, ' ', nom) LIKE '$cherche%'
+       OR CONCAT(nom, ' ', prenom) LIKE '$cherche%';
   "));
   
   $res_final = array("time" => time(),
