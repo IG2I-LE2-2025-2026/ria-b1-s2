@@ -58,7 +58,9 @@ function annuler() {
   hide("suggestions-cs1");
   hide("imgLoad-cs1");
   val("saisie-cs1", "");
-  requete.abort();
+  if (requete !== undefined) {
+    requete.abort();
+  }
 }
 
 function choisir(contexte) {
@@ -89,8 +91,16 @@ function saisir(refInput) {
   
   old_contenu = contenu;
 }
-function integrer (suggestions) {
-  html("suggestions-cs1",suggestions);
+function integrer (JSONSuggestions) {
+  var oSuggestions = JSON.parse(JSONSuggestions);
+  var htmlSuggestions = '';
+  console.log(oSuggestions);
+  for(var i in oSuggestions) {
+    htmlSuggestions += '<div>' + oSuggestions[i].nom +
+                       ' ' + oSuggestions[i].prenom +
+                       '</div>\n';
+  }
+  html("suggestions-cs1", htmlSuggestions);
   show("suggestions-cs1");
   hide("imgLoad-cs1");
 }
