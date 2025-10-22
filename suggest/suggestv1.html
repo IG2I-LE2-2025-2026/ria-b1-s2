@@ -44,6 +44,7 @@ en jQuery, on pourra exploiter les classes */
 <script>
 
 var old_contenu, requete;
+var cache = {};  // Cache des requêtes AJAX
 
 // Interaction ESC
 function interactionEchap(oEvent) {
@@ -80,10 +81,15 @@ function saisir(refInput) {
       if (requete !== undefined) {
         requete.abort();
       }
-      requete = ajax("data.php", {
-        data: {debutNom:contenu}, 
-        callback: integrer
-      });
+      if (cache[contenu] !== undefined) {
+        // Si on a déjà fait la requête : on utilise le cache
+        integrer(cache[contenu]);
+      } else {
+        requete = ajax("data.php", {
+          data: {debutNom:contenu}, 
+          callback: integrer
+        });
+      }
     }
   } else {
     annuler();
@@ -91,9 +97,15 @@ function saisir(refInput) {
   
   old_contenu = contenu;
 }
-function integrer(JSONSuggestions) {
-  var oSuggestions = JSON.parse(JSONSuggestions);
+function integrer(JSONOrOSuggestions) {
+  var oSuggestions;
   var htmlSuggestions = '';
+  if (typeof JSONOrOSuggestions === 'string') {
+    oSuggestions = JSON.parse(JSONOrOSuggestions);
+    cache[oSuggestions.recherche] = oSuggestions;
+  } else {
+    oSuggestions = JSONOrOSuggestions;
+  }
   console.log(oSuggestions);
   for(var i in oSuggestions.suggestions) {
     var sugg_courante = oSuggestions.suggestions[i];
