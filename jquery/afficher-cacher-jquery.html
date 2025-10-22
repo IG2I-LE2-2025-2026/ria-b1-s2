@@ -17,7 +17,18 @@
       // Attribuer les gestionnaires d'événements
       $(".btnAfficherCacher").click(afficher_cacher);
       $(".btnAjouterPar").click(ajouter_par);
+      
+      // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
+      //$("#contenu p").click(jaunir);
+      
+      // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
+      $(document).on('click', '#contenu p', jaunir);
     });
+    
+    function jaunir(oEvent) {
+      console.log(oEvent);
+      $(this).css("background-color", "yellow");
+    }
     
     function afficher_cacher() {
       console.log("Fonction afficher_cacher");
