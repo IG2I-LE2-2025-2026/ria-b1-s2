@@ -28,9 +28,9 @@
       var newPar = $("<p>")
                      .html("Nouveau paragraphe");
       if ($(refBouton).is(".btnAjouterPar:first")) {
-        $("#contenu").prepend(newPar);
+        $(".btnAjouterPar:first").after(newPar);
       } else {
-        $("#contenu").append(newPar);
+        $(".btnAjouterPar:last").before(newPar);
       }
     }
   </script>
@@ -42,14 +42,14 @@
   <p>Bienvenue dans mon application !</p>
   
   <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
-  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
   <div id="contenu">
+    <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
     <p>Un paragraphe dans la div</p>
     <p>Encore un paragraphe dans la div</p>
+    <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
   </div>
   <div class=".divBlock"></div>
   <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
-  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
   
   <p>Copyright moi-même</p>
 </body>
