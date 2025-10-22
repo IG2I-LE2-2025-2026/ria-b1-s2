@@ -16,12 +16,7 @@
     $(document).ready(function () {
       // Attribuer les gestionnaires d'événements
       $(".btnAfficherCacher").click(afficher_cacher);
-      $(".btnAjouterPar:first").click(function () {
-        ajouter_par('haut');
-      });
-      $(".btnAjouterPar:last").click(function () {
-        ajouter_par('bas');
-      });
+      $(".btnAjouterPar").click(ajouter_par);
     });
     
     function afficher_cacher() {
@@ -34,11 +29,12 @@
       }
     }
     
-    function ajouter_par(positionPar) {
+    function ajouter_par() {
       console.log("Fonction ajouter_par");
+      console.log($(this));
       var newPar = $("<p>")
                      .html("Nouveau paragraphe");
-      if (positionPar === 'haut') {
+      if ($(this).is(".btnAjouterPar:first")) {
         $(".btnAjouterPar:first").after(newPar);
       } else {
         $(".btnAjouterPar:last").before(newPar);
