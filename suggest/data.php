@@ -27,7 +27,13 @@ if (isset($_GET["debutNom"]))
   echo ("</pre>");
   */
   
-  echo json_encode($res);
+  $res_final = array("time" => time(),
+                     "date" => date("Y-m-d H:i:s"),
+                     "recherche" => $cherche,
+                     "version" => "v2",
+                     "suggestions" => $res);
+  
+  echo json_encode($res_final);
   
 	die("");
 }
