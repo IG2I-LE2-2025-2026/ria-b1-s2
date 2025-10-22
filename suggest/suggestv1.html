@@ -9,74 +9,101 @@ mais on utilise tout de même des id dans le js pour faciliter l'accès au DOM
 en jQuery, on pourra exploiter les classes */
 
 .composantSuggest {
-	display:inline;
-	position:relative;
-	/*devient un conteneur */
+  display:inline;
+  position:relative;
+  /*devient un conteneur */
 }
 .composantSuggest img {
-	position:absolute;
-	right:8px;
-	top:4px;
-	display:none;
+  position:absolute;
+  right:8px;
+  top:4px;
+  display:none;
 }
 .composantSuggest input {
-	width:150px;
-	border: 1px solid black;
-	outline:none;
+  width:150px;
+  border: 1px solid black;
+  outline:none;
 }
 .suggestions {
-	position:absolute;
-	background-color:lightgrey;
-	left:0px;right:0px;
-	width:150px;
+  position:absolute;
+  background-color:lightgrey;
+  left:0px;right:0px;
+  width:150px;
 }
 .suggestions div {
-		padding:3px;	
+    padding:3px;  
 }
 .suggestions div:hover {
-	cursor:pointer;
-	background-color:grey;
-	color:white;
+  cursor:pointer;
+  background-color:grey;
+  color:white;
 }
 </style>
 <script src="js/utils.js"></script>
 <script src="js/ajax.js"></script>
 <script>
-// TODO : mettre en place l'interaction ESC qui cache les suggestions, vide le champ de saisie (BONUS : et annule la requete AJAX en cours) 
+
+var old_contenu, requete;
+
+// Interaction ESC
+function interactionEchap(oEvent) {
+  console.log(oEvent);
+  if (oEvent.key === "Escape") {
+    annuler();
+  }
+}
+
+// Cacher les suggestions, vider le champ de saisie, annuler la requete AJAX en cours
+function annuler() {
+  hide("suggestions-cs1");
+  hide("imgLoad-cs1");
+  val("saisie-cs1", "");
+  requete.abort();
+}
 
 function choisir(contexte) {
-	// ref sur l'élément à l'origine de l'evnt : contexte.target
-	val("saisie-cs1",html(contexte.target)); 
-	hide("suggestions-cs1");
+  // ref sur l'élément à l'origine de l'evnt : contexte.target
+  val("saisie-cs1",html(contexte.target)); 
+  hide("suggestions-cs1");
 }
 
 function saisir(refInput) {
-	var contenu = val(refInput);
-	show("imgLoad-cs1");
-	// TODO: on envoie une requete ssi 
-	// le champ n'est pas vide 
-	// le champ a effectivement changé 
-	
-	// TODO : utiliser la page data comme couche d'information
-	ajax("fixture.php", {
-		data: {debutNom:contenu}, 
-		callback: integrer
-	});
+  var contenu = val(refInput);
+  // On envoie une requete ssi 
+  // le champ n'est pas vide 
+  // le champ a effectivement changé 
+  if (contenu) {
+    if (old_contenu !== contenu) {
+      // TODO : utiliser la page data comme couche d'information
+      show("imgLoad-cs1");
+      if (requete !== undefined) {
+        requete.abort();
+      }
+      requete = ajax("fixture.php", {
+        data: {debutNom:contenu}, 
+        callback: integrer
+      });
+    }
+  } else {
+    annuler();
+  }
+  
+  old_contenu = contenu;
 }
 function integrer (suggestions) {
-	html("suggestions-cs1",suggestions);
-	show("suggestions-cs1");
-	hide("imgLoad-cs1");
+  html("suggestions-cs1",suggestions);
+  show("suggestions-cs1");
+  hide("imgLoad-cs1");
 }
 </script>
-<body>
+<body onkeydown="interactionEchap(event);">
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec sapien aliquam, feugiat nisl nec, condimentum dolor. Phasellus non tincidunt risus, ut blandit mauris. Curabitur faucibus nibh magna, at condimentum nisl auctor vitae. Integer molestie elit vel pharetra aliquet. 
 <div id="cs1" class="composantSuggest">
-	<input type="text" id="saisie-cs1" value="Th" onkeyup="saisir(this);"/>
-	<img src="ressources/ajaxLoader2.gif" id="imgLoad-cs1" />
-	<div class="suggestions" id="suggestions-cs1" onclick="choisir(event);">
-	</div>
+  <input type="text" id="saisie-cs1" value="Th" onkeyup="saisir(this);"/>
+  <img src="ressources/ajaxLoader2.gif" id="imgLoad-cs1" />
+  <div class="suggestions" id="suggestions-cs1" onclick="choisir(event);">
+  </div>
 </div>
 Nam convallis maximus facilisis. Aenean commodo hendrerit elit non malesuada. Aenean ut urna quis arcu vestibulum posuere nec id nisl. Nunc sed bibendum purus, sodales tincidunt sapien. Fusce ultrices tortor a ligula ultrices dignissim.
 

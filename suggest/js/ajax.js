@@ -72,7 +72,7 @@ function ajax(urlOrConfig, config) {
 	};
 	
 	request.send(donnees);
-	
+	return request;
 }
 
 console.log("Chargement ajax.js");
