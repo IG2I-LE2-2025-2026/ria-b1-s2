@@ -12,6 +12,18 @@
     }
   </style>
   <script>
+    // À la fin du chargement de la page
+    $(document).ready(function () {
+      // Attribuer les gestionnaires d'événements
+      $(".btnAfficherCacher").click(afficher_cacher);
+      $(".btnAjouterPar:first").click(function () {
+        ajouter_par('haut');
+      });
+      $(".btnAjouterPar:last").click(function () {
+        ajouter_par('bas');
+      });
+    });
+    
     function afficher_cacher() {
       console.log("Fonction afficher_cacher");
       $("#contenu").toggle();
@@ -22,12 +34,11 @@
       }
     }
     
-    function ajouter_par(refBouton) {
+    function ajouter_par(positionPar) {
       console.log("Fonction ajouter_par");
-      console.log(refBouton);
       var newPar = $("<p>")
                      .html("Nouveau paragraphe");
-      if ($(refBouton).is(".btnAjouterPar:first")) {
+      if (positionPar === 'haut') {
         $(".btnAjouterPar:first").after(newPar);
       } else {
         $(".btnAjouterPar:last").before(newPar);
@@ -41,15 +52,15 @@
 
   <p>Bienvenue dans mon application !</p>
   
-  <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
+  <input type="button" class="btnAfficherCacher" value="Cacher" />
   <div id="contenu">
-    <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
+    <input type="button" class="btnAjouterPar" value="+" />
     <p>Un paragraphe dans la div</p>
     <p>Encore un paragraphe dans la div</p>
-    <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
+    <input type="button" class="btnAjouterPar" value="+" />
   </div>
   <div class=".divBlock"></div>
-  <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
+  <input type="button" class="btnAfficherCacher" value="Cacher" />
   
   <p>Copyright moi-même</p>
 </body>
