@@ -22,11 +22,12 @@
       }
     }
     
-    function ajouter_par(positionPar) {
+    function ajouter_par(refBouton) {
       console.log("Fonction ajouter_par");
+      console.log(refBouton);
       var newPar = $("<p>")
                      .html("Nouveau paragraphe");
-      if (positionPar === 'haut') {
+      if ($(refBouton).is(".btnAjouterPar:first")) {
         $("#contenu").prepend(newPar);
       } else {
         $("#contenu").append(newPar);
@@ -41,14 +42,14 @@
   <p>Bienvenue dans mon application !</p>
   
   <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
-  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par('haut');">
+  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
   <div id="contenu">
     <p>Un paragraphe dans la div</p>
     <p>Encore un paragraphe dans la div</p>
   </div>
   <div class=".divBlock"></div>
   <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
-  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par('bas');">
+  <input type="button" class="btnAjouterPar" value="+" onclick="ajouter_par(this);">
   
   <p>Copyright moi-même</p>
 </body>
