@@ -1,8 +1,8 @@
 <?php
 
 $BDD_host="localhost";
-$BDD_user="admin";
-$BDD_password="mysql"; // vide sous windows
-$BDD_base="web2"; // nom de la base de données
+$BDD_user="max";
+$BDD_password="max"; // vide sous windows
+$BDD_base="2025-2026-LE2-suggest-B1"; // nom de la base de données
 
 ?>
