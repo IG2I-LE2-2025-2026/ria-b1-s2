@@ -1,0 +1,39 @@
+<head>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous">
+  </script>
+  <style>
+    #contenu {
+      border: 1px solid gray;
+      padding: 1em;
+    }
+  </style>
+  <script>
+    function afficher_cacher() {
+      console.log("Fonction afficher_cacher");
+      $("#contenu").toggle();
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Mon application</h1>
+
+  <p>Bienvenue dans mon application !</p>
+  
+  <input type="button" value="Afficher/cacher" onclick="afficher_cacher();">
+  <div id="contenu">
+    <p>Un paragraphe dans la div</p>
+    <p>Encore un paragraphe dans la div</p>
+  </div>
+  
+  <p>Copyright moi-même</p>
+</body>
+
+
+
+
+
+
+
+
