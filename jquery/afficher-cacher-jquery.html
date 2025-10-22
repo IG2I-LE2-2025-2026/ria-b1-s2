@@ -7,15 +7,18 @@
       border: 1px solid gray;
       padding: 1em;
     }
+    .btnAfficherCacher {
+      display: block;
+    }
   </style>
   <script>
     function afficher_cacher() {
       console.log("Fonction afficher_cacher");
       $("#contenu").toggle();
       if ($("#contenu:hidden").length === 0) {
-        $("#btnAfficherCacher").val("Cacher");
+        $(".btnAfficherCacher").val("Cacher");
       } else {
-        $("#btnAfficherCacher").val("Afficher");
+        $(".btnAfficherCacher").val("Afficher");
       }
     }
   </script>
@@ -26,11 +29,12 @@
 
   <p>Bienvenue dans mon application !</p>
   
-  <input type="button" id="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
+  <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
   <div id="contenu">
     <p>Un paragraphe dans la div</p>
     <p>Encore un paragraphe dans la div</p>
   </div>
+  <input type="button" class="btnAfficherCacher" value="Cacher" onclick="afficher_cacher();">
   
   <p>Copyright moi-même</p>
 </body>
