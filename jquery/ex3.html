@@ -1,0 +1,160 @@
+<head>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous">
+  </script>
+  <style>
+    #contenu {
+      border: 1px solid gray;
+      padding: 1em;
+    }
+		#contenu p:hover {
+			cursor : pointer; 
+			border:1px dashed black;
+		} 
+  </style>
+<script>
+
+// TODO :
+// lors de l'appui sur ESCAPE n'importe où dans le document 
+// parcourir tous les TA du #contenu 
+// pour chacun 
+// restaurer le P avec le contenu initial du TA  
+
+// Si plusieurs objets (présent ou à venir)
+// doivent être associés à un comportement 
+// utiliser méthode .on 
+// $(sel).click => ne fonctionne que pour les éléments "sel" déjà présents dans la page 
+
+// $(document).on("click","sel", function(){}); 
+
+	var jTAValidable = $("<textarea>")
+		.keydown(function(contexte){
+			// le contexte de l'événement est TOUJOURS passé au gestionnaire en jquery !!!  
+			if(contexte.code == "Enter") {
+				// Si on appuie sur ENTREE
+				// Alors récupérer contenu actuel
+				var contenu = $(this).val(); 
+				var jPClone = jPEditable
+					.clone(true)
+					.html(contenu); 
+				
+				$(this).replaceWith(jPClone);
+				// s'en servir pour remplacer le TA par un P
+				// avec ce contenu 
+			}
+			
+		}); 
+
+	var jPEditable = $("<p>")
+		.html("nouveau")
+		.click(function(){
+			// récupérer le contenu actuel 
+			var contenu = $(this).html(); 
+
+			// créer un champ d'édition avec ce même contenu 
+			var jTAClone = jTAValidable
+				.clone(true)
+				.val(contenu)
+				//.data("initValue",contenu);
+				.data({initValue:contenu, info2:"val2"});  
+				
+			// enregistrer la valeur initiale de ce contenu dans le TA 
+			
+			// remplacer le P par le TA 
+			$(this).replaceWith(jTAClone);
+						
+			
+		
+		});  
+
+	var jBtnPlus = $("<div>")
+		//.css({display:"inline"})
+		.css("display","inline")
+		.append(
+			$("<input type='button'>")
+				.val("+")
+				// .addClass("btnAjouterPar")
+				.click(function(){
+					var contenu = $(this).next().val();
+					var jP =  jPEditable.clone(true);  					
+					if (contenu != "")  jP.html(contenu);
+						
+					console.log("click sur +");
+					// $(this) c'est le bouton + cliqué 
+					// if ($(this).is(".btnAjouterPar:first")) {
+					if ($(this).is("input[value='+']:first")) {
+						// contenu du champ texte à droite du btn cliqué
+						// .next() .prev() $("sel", contexte)
+						// .parent() .parents("sel")
+					  $("#contenu").prepend(jP);
+					} else {
+					  $("#contenu").append(jP);
+					}
+				})
+		)
+		.append(
+			$("<input type='text'>")
+		); 
+
+
+  // À la fin du chargement de la page
+  $(document).ready(function () {
+  
+  $(document).on("mouseover","*", function(){
+  	if (! $.isEmptyObject($(this).data())) 
+  		console.log($(this).data()); 
+  }); 
+  
+  // $(".btnAfficherCacher").after(jBtnPlus);
+  $(".btnAfficherCacher:first").after(jBtnPlus.clone(true));
+  $(".btnAfficherCacher:last").after(jBtnPlus.clone(true));
+  
+  
+    // Attribuer les gestionnaires d'événements
+    $(".btnAfficherCacher").click(afficher_cacher);
+    
+    // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
+    //$("#contenu p").click(jaunir);
+    
+    // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
+    $(document).on('click', '#contenu p', jaunir);
+  });
+  
+  
+  function afficher_cacher() {
+    console.log("Fonction afficher_cacher");
+    $("#contenu").toggle();
+    if ($("#contenu:hidden").length === 0) {
+      $(".btnAfficherCacher").val("Cacher");
+    } else {
+      $(".btnAfficherCacher").val("Afficher");
+    }
+  }
+  
+</script>
+</head>
+
+<body>
+  <h1>Mon application</h1>
+
+  <p>Bienvenue dans mon application !</p>
+  
+  <input type="button" class="btnAfficherCacher" value="Cacher" />
+  
+  
+  <div id="contenu">
+  </div>
+
+
+  <input type="button" class="btnAfficherCacher" value="Cacher" />
+  
+  <p>Copyright moi-même</p>
+</body>
+
+
+
+
+
+
+
+
