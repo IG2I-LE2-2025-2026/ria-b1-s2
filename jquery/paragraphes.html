@@ -1,0 +1,222 @@
+<head>
+  <meta charset="UTF-8">
+  <script src="jquery-3.7.1.min.js">
+  </script>
+  <style>
+    #contenu {
+      border: 1px solid gray;
+      padding: 1em;
+    }
+		#contenu p:not(.disabled):hover {
+			cursor : pointer; 
+			border:1px dashed black;
+		} 
+		#contenu textarea {
+			display:block;
+			width:100%;
+			margin: 5px;
+		}
+		
+		.disabled {
+			font-style:italic; 
+			color:lightgrey;
+		}
+		.disabled:hover{
+				cursor : not-allowed !important; 
+		}
+		
+  </style>
+<script>
+
+var cache = {
+	apiRoot : "http://tomnab.fr/paragraphes-api/api/",
+	hash : "cdfac0758d27e03825eff47ff0d7d805", 
+	idArticle : 3384
+}; 
+
+
+/*
+	TODO : 1) récupérer les paragraphes de cet article 
+	GET /articles/<id>/paragraphes
+	
+	2) éditer un P. 
+	Lors de la validation : mettre à jour le contenu sur le serveur 
+	PUT /articles/<id>/paragraphes/<id>?contenu=.. 
+	
+	3) créer un nouveau P. 
+	il faudra demander sa création auprès de l'API
+	une fois le P. créé, il faut récupérer son id !!! 
+	
+
+*/
+
+
+	var jTAValidable = $("<textarea>")
+		.keydown(function(contexte){
+			// le contexte de l'événement est TOUJOURS passé au gestionnaire en jquery !!!  
+			if(contexte.code == "Enter") {
+				// Si on appuie sur ENTREE
+				// Alors récupérer contenu actuel
+				
+				var contenu = $(this).val(); 
+				var jPClone = jPEditable
+					.clone(true)
+					.html(contenu)
+					.data($(this).data())
+					.addClass("disabled"); 
+					
+				// Envoyer une requete aupres de l'API 
+				// pour mettre à jour côte serveur 
+				// TODO : ne pas autoriser les modifications ultérieures tant que l'api n'a pas accusé réception de cette mise à jour 
+				// PUT /articles/idA/paragraphes/idP?contenu 
+					$.ajax({
+						type: "PUT",
+						url: cache.apiRoot + "/articles/" + cache.idArticle 
+								+ "/paragraphes/" + $(this).data("id") 
+								+ "?contenu=" + contenu,		
+						headers: {"hash":cache.hash},
+						success: function(oRep){
+							console.log(oRep);
+							// Il faut réactiver le bon paragraphe !! 
+							jPClone.removeClass("disabled");
+						},
+						dataType: "json"
+					});
+				
+				$(this).replaceWith(jPClone);
+				// s'en servir pour remplacer le TA par un P
+				// avec ce contenu 
+			}
+			
+		}); 
+
+	var jPEditable = $("<p>")
+		.html("nouveau")
+		.click(function(){
+		
+			if ($(this).hasClass("disabled")) return; 
+			
+			// récupérer le contenu actuel 
+			var contenu = $(this).html(); 
+
+			// créer un champ d'édition avec ce même contenu 
+			var jTAClone = jTAValidable
+				.clone(true)
+				.val(contenu)
+				.data($(this).data());  
+				
+			// enregistrer la valeur initiale de ce contenu dans le TA 
+			
+			// remplacer le P par le TA 
+			$(this).replaceWith(jTAClone);
+						
+		});  
+
+	var jBtnPlus = $("<div>")
+		//.css({display:"inline"})
+		.css("display","inline")
+		.append(
+			$("<input type='button'>")
+				.val("+")
+				// .addClass("btnAjouterPar")
+				.click(function(){
+					var contenu = $(this).next().val();
+					var jP =  jPEditable.clone(true);  	
+					if (contenu != "")  jP.html(contenu);
+						
+					console.log("click sur +");
+					// $(this) c'est le bouton + cliqué 
+					// if ($(this).is(".btnAjouterPar:first")) {
+					if ($(this).is("input[value='+']:first")) {
+						// contenu du champ texte à droite du btn cliqué
+						// .next() .prev() $("sel", contexte)
+						// .parent() .parents("sel")
+					  $("#contenu").prepend(jP);
+					} else {
+					  $("#contenu").append(jP);
+					}
+				})
+		)
+		.append(
+			$("<input type='text'>")
+		);
+		// fin btnPlus 
+
+
+  // À la fin du chargement de la page
+
+  $(document).on("keyup",function(contexte){
+  
+  	if (contexte.code =="Escape") {
+  		$("#contenu textarea").each(function(){
+  			var meta = $(this).data(); 
+  			console.log($(this).data("initValue"));
+  			console.log(meta.initValue);
+  			
+  			var jPClone = jPEditable
+					.clone(true)
+					.html(meta.initValue); 
+					
+				$(this).replaceWith(jPClone);
+				
+  		});
+  	}
+  
+  });
+   
+  $(document).ready(function () {
+ 
+  	// Débogage : affichage des méta-données des objets survolés
+		$(document).on("mouseover","*", function(){
+			if (! $.isEmptyObject($(this).data())) 
+				console.log($(this).data()); 
+		}); 
+		
+		// $(".btnAfficherCacher").after(jBtnPlus); 
+		$("#contenu").before(jBtnPlus.clone(true));
+		$("#contenu").after(jBtnPlus.clone(true));
+		
+		
+		// récupérer les paragraphes de cet article 
+		$.getJSON(cache.apiRoot + "/articles/" + cache.idArticle + "/paragraphes", {hash: cache.hash}, function (oRep){
+		
+		console.log(oRep);
+		var i; 
+		$("#contenu").empty(); // vider 
+		for(i=0;i<oRep.paragraphes.length;i++) {
+			var jPClone = jPEditable
+				.clone(true)
+				.html(oRep.paragraphes[i].contenu)
+				.data(oRep.paragraphes[i]);
+				$("#contenu").append(jPClone); 
+		}
+		
+		
+		}); 
+		// GET /articles/<id>/paragraphes
+
+	}); // fin $(document).ready
+
+  
+</script>
+</head>
+
+<body>
+
+
+  <h1>Mon Google Docs</h1>
+
+  <p>Bienvenue dans mon application !</p>
+  
+  <div id="contenu">
+  </div>
+  
+</body>
+
+
+
+
+
+
+
+
