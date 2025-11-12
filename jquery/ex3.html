@@ -63,8 +63,6 @@
 			// remplacer le P par le TA 
 			$(this).replaceWith(jTAClone);
 						
-			
-		
 		});  
 
 	var jBtnPlus = $("<div>")
@@ -94,32 +92,47 @@
 		)
 		.append(
 			$("<input type='text'>")
-		); 
+		);
+		// fin btnPlus 
 
 
   // À la fin du chargement de la page
+
+  $(document).on("keyup",function(contexte){
+  
+  	if (contexte.code =="Escape") {
+  		$("#contenu textarea").each(function(){
+  			var meta = $(this).data(); 
+  			console.log($(this).data("initValue"));
+  			console.log(meta.initValue);
+  			
+  			var jPClone = jPEditable
+					.clone(true)
+					.html(meta.initValue); 
+					
+				$(this).replaceWith(jPClone);
+				
+  		});
+  	}
+  
+  });
+   
   $(document).ready(function () {
-  
-  $(document).on("mouseover","*", function(){
-  	if (! $.isEmptyObject($(this).data())) 
-  		console.log($(this).data()); 
-  }); 
-  
-  // $(".btnAfficherCacher").after(jBtnPlus);
-  $(".btnAfficherCacher:first").after(jBtnPlus.clone(true));
-  $(".btnAfficherCacher:last").after(jBtnPlus.clone(true));
-  
-  
+ 
+  	// Débogage : affichage des méta-données des objets survolés
+		$(document).on("mouseover","*", function(){
+			if (! $.isEmptyObject($(this).data())) 
+				console.log($(this).data()); 
+		}); 
+		
+		// $(".btnAfficherCacher").after(jBtnPlus); 
+		$(".btnAfficherCacher:first").after(jBtnPlus.clone(true));
+		$(".btnAfficherCacher:last").after(jBtnPlus.clone(true));
+		
     // Attribuer les gestionnaires d'événements
     $(".btnAfficherCacher").click(afficher_cacher);
     
-    // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
-    //$("#contenu p").click(jaunir);
-    
-    // Événement qui fonctionne uniquement sur les deux paragraphes présdents dans #contenu quand la page est chargée
-    $(document).on('click', '#contenu p', jaunir);
-  });
-  
+	}); // fin $(document).ready
   
   function afficher_cacher() {
     console.log("Fonction afficher_cacher");
